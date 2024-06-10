@@ -121,7 +121,7 @@ const Home = ({ navigation }) => {
         <View style={styles.wrapper}>
             {loading && <Loader />}
             {isError && <AlertMessage message={errorMessage} onPressOk={errorOkHandler} />}
-            <Header />
+            <Header isHome={true} />
 
             {displayedPosts.length > 0 ?
                 <>

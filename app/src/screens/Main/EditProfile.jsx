@@ -6,9 +6,13 @@ import Loader from '../../../components/Loader';
 import AlertMessage from '../../../components/Alert';
 import * as ImagePicker from 'expo-image-picker';
 import Input from '../../../components/Input';
-import { useSelector } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import { setAuth, setUser } from '../../../redux/slices/authSlice';
+import { useDispatch, useSelector } from 'react-redux/dist/react-redux';
 
 const EditProfile = ({ navigation }) => {
+    const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
     const [image, setImage] = useState(null);
     const [resultAssets, setResultAssets] = useState(null);
@@ -29,7 +33,7 @@ const EditProfile = ({ navigation }) => {
 
     const [errors, setErrors] = useState({
         name: false,
-        email: false,
+        bio: false,
     });
 
     const changeHandler = (name, value) => {
@@ -65,6 +69,34 @@ const EditProfile = ({ navigation }) => {
 
     const updateHandler = async ()=>{
         console.log("update");
+        setLoading(true);
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const response = await axios.put(`${process.env.EXPO_PUBLIC_SERVER_BASE_URL}/me`, { 
+                name: inputData ? inputData.name : undefined,
+                bio: inputData ? inputData.bio : undefined,
+                base64String: resultAssets ? resultAssets.base64 : undefined,
+                mType: resultAssets ? resultAssets.mimeType : undefined
+            },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Cookies': `${token}`
+                    },
+                });
+
+            await AsyncStorage.setItem('token', response.data.token);
+            await AsyncStorage.setItem('user', JSON.stringify(response.data.user));
+            dispatch(setAuth(true));
+            dispatch(setUser(response.data.user));
+            navigation.goBack();
+        } catch (error) {
+            console.log(error)
+            setIsError(true);
+            setErrorMessage(error.response?.data?.message || "Network Error");
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (

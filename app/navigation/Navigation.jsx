@@ -16,7 +16,7 @@ import Home from '../src/screens/Main/Home';
 import VerifyOtp from '../src/screens/Register/VerifyOtp';
 import UserInfo from '../src/screens/Register/UserInfo';
 import Profile from '../src/screens/Main/Profile';
-import Chats from '../src/screens/Main/Chats';
+import Chats from '../src/screens/Main/Inbox';
 import Explore from '../src/screens/Main/Explore';
 import PostDetail from '../components/Profile/PostDetail';
 import UserProfile from '../src/screens/Main/UserProfile';
@@ -26,6 +26,8 @@ import ProfileSettings from '../src/screens/Main/ProfileSettings';
 import Socials from '../src/screens/Main/Socials';
 import FindFriends from '../src/screens/Main/FindFriends';
 import EditProfile from '../src/screens/Main/EditProfile';
+import Inbox from '../src/screens/Main/Inbox';
+import Chat from '../src/screens/Main/Chat';
 
 const Stack = createStackNavigator();
 const BottomTabs = createBottomTabNavigator();
@@ -141,6 +143,8 @@ const Navigation = () => {
             <Stack.Screen name="edit-profile" component={EditProfile} /> 
             <Stack.Screen name="socials" component={Socials} /> 
             <Stack.Screen name="find-friends" component={FindFriends} /> 
+            <Stack.Screen name="inbox" component={Inbox} /> 
+            <Stack.Screen name="chat" component={Chat} /> 
         </Stack.Navigator>
     ) : (
         <Stack.Navigator initialRouteName='welcome' screenOptions={{ headerShown: false, cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS }}>

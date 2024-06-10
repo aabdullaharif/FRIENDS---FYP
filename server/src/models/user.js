@@ -74,7 +74,7 @@ const userSchema = new mongoose.Schema(
         visibility: {
             type: String,
             enum: ["public", "private"],
-            default: "private"
+            default: "public"
         },
         resetPasswordToken: String,
         resetPasswordExpire: Date,

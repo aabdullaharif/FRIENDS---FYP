@@ -46,8 +46,6 @@ const Profile = () => {
     const RenderItem = ({ item }) => <PostGrid postData={item} />;
     const numberOfCols = 3;
 
-    console.log(postData, "hhhhhhhhhhhhhhhhhh")
-
     return (
         <View
             style={styles.wrapper}

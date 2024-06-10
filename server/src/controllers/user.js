@@ -41,17 +41,13 @@ exports.updateUserDetails = asyncHandler(async (req, res, next) => {
     }
 
     if(profileImageUrl) updatedFields.profile_image_url = profileImageUrl;
-    console.log({ updatedFields });
     const updatedUser = await User.findByIdAndUpdate(req.user._id, { $set: updatedFields }, { new: true });
 
     if (!updatedUser) {
         return next(new ErrorHandler(`User not found with id of ${req.user._id}`, 404));
     }
 
-    res.status(200).json({
-        success: true,
-        updatedUser
-    });
+    sendToken(user, 200, res);
 });
 
 // @desc Delete a User, their Posts, Followers, and Followings
